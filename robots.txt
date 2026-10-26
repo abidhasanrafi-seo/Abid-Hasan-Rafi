@@ -1,0 +1,16 @@
+# robots.txt — Abid Hasan Rafi (https://jamesmicahael-svg.github.io/Abid-Hasan-Rafi/)
+User-agent: *
+Allow: /
+
+# Clean crawl delay for polite bots
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+# Block non-essential paths
+Disallow: /*?*
+
+# Sitemaps
+Sitemap: https://jamesmicahael-svg.github.io/Abid-Hasan-Rafi/sitemap.xml
