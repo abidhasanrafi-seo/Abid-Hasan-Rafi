@@ -1,4 +1,4 @@
-# robots.txt — Abid Hasan Rafi (https://jamesmicahael-svg.github.io/)
+# robots.txt — Abid Hasan Rafi (https://abidhasanrafi-seo.github.io/)
 User-agent: *
 Allow: /
 
@@ -13,4 +13,4 @@ Crawl-delay: 10
 Disallow: /*?*
 
 # Sitemaps
-Sitemap: https://jamesmicahael-svg.github.io/sitemap.xml
+Sitemap: https://abidhasanrafi-seo.github.io/sitemap.xml

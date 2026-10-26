@@ -40,7 +40,7 @@ grid collapse, touch-friendly targets.
 
 ## 🚀 Publish on GitHub Pages (manual steps)
 
-1. Create a new **public** repository on GitHub — e.g. `jamesmicahael-svg.github.io`
+1. Create a new **public** repository on GitHub — e.g. `abidhasanrafi-seo.github.io`
    (a *username repo* gives you the clean URL `https://USERNAME.github.io/`)
 2. From this folder run:
 
@@ -58,7 +58,7 @@ git push -u origin main
 
 ## ⚠️ After publishing — update the domain
 
-Replace **`jamesmicahael-svg.github.io`** with your real URL in:
+Replace **`abidhasanrafi-seo.github.io`** with your real URL in:
 
 - `index.html` (canonical, og:url, og:image, twitter:image, JSON-LD `url`/`image`)
 - `robots.txt` (Sitemap line)
