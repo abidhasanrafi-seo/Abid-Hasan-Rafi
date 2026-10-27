@@ -75,6 +75,20 @@
   );
   $$(".reveal").forEach((el) => revealObserver.observe(el));
 
+  /* Safety net: ensure reveals trigger even if IntersectionObserver misses (e.g. on some laptops) */
+  function revealInView() {
+    $$(".reveal").forEach((el) => {
+      if (el.classList.contains("visible")) return;
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) el.classList.add("visible");
+    });
+  }
+  revealInView();
+  window.addEventListener("scroll", revealInView, { passive: true });
+  if (!("IntersectionObserver" in window)) {
+    $$(".reveal").forEach((el) => el.classList.add("visible"));
+  }
+
   /* ---------- Typing effect ---------- */
   const roles = [
     "SEO Expert",
