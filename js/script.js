@@ -273,7 +273,9 @@
 
   function hideTyping() { const t = document.getElementById("chatTyping"); if (t) t.remove(); }
 
-  function getReply(text) {
+  const SYSTEM_PROMPT = "You are Rafi's AI Assistant, a friendly and helpful chatbot on the personal website of Abid Hasan Rafi. Abid Hasan Rafi is an SEO Expert working at MicroDeft (a leading software development & digital marketing company in Dhaka, Bangladesh) and a BBA student at Canadian University of Bangladesh. He specializes in SEO (on-page, off-page, technical, keyword research, link building, local SEO), digital marketing, and is based in Dhaka, Bangladesh. His social profiles: Facebook https://web.facebook.com/abid.hasan.rafi.731010, LinkedIn https://www.linkedin.com/in/abid-hasan-rafi-392333329/, Instagram https://www.instagram.com/ab_id9630/. Answer the user's question helpfully, concisely and accurately. Reply in the same language the user writes (English or Bengali). Keep answers short (2-5 sentences) unless more detail is needed. If asked about pricing, suggest contacting Rafi directly. If you don't know something, say so and suggest contacting Rafi. Never make up facts about Rafi beyond what's stated.";
+
+  function kbReply(text) {
     const q = text.toLowerCase().trim();
     if (!q) return null;
     for (const entry of KB) {
@@ -281,19 +283,49 @@
         if (q.includes(k)) return entry.reply;
       }
     }
-    return FALLBACK;
+    return null;
   }
 
-  function botReply(userText) {
+  async function fetchAIReply(userText) {
+    // KB fast-path for exact matches (instant, no network)
+    const fast = kbReply(userText);
+    if (fast) return fast;
+
+    const url = "https://text.pollinations.ai/" + encodeURIComponent(userText) +
+      "?system=" + encodeURIComponent(SYSTEM_PROMPT) + "&model=openai&seed=" + (Math.floor(Math.random() * 100000));
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 18000);
+    try {
+      const res = await fetch(url, { signal: controller.signal });
+      clearTimeout(timer);
+      if (!res.ok) throw new Error("http " + res.status);
+      let text = await res.text();
+      text = text.trim();
+      // strip any accidental markdown code fences
+      text = text.replace(/^```[\s\S]*?\n/, "").replace(/```$/g, "").trim();
+      if (!text) throw new Error("empty");
+      return text;
+    } catch (err) {
+      clearTimeout(timer);
+      return FALLBACK;
+    }
+  }
+
+  async function botReply(userText) {
     if (isTyping) return;
     isTyping = true;
     showTyping();
-    const delay = 600 + Math.min(900, userText.length * 12);
-    setTimeout(() => {
+    try {
+      const reply = await fetchAIReply(userText);
       hideTyping();
-      addMessage(getReply(userText) || FALLBACK, "bot");
+      addMessage(reply, "bot");
+    } catch (e) {
+      hideTyping();
+      addMessage(FALLBACK, "bot");
+    } finally {
       isTyping = false;
-    }, delay);
+    }
   }
 
   function openChat() {
