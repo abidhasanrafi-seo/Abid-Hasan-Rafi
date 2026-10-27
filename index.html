@@ -682,6 +682,31 @@
 
   <button class="to-top" id="toTop" aria-label="Back to top">↑</button>
 
+  <!-- ===== Chatbot Widget ===== -->
+  <div class="chatbot" id="chatbot">
+    <button class="chatbot__toggle" id="chatToggle" aria-label="Open chat with Rafi's AI Assistant" aria-expanded="false">
+      🤖
+      <span class="chatbot__badge" aria-hidden="true"></span>
+    </button>
+    <div class="chatbot__panel" id="chatPanel" role="dialog" aria-label="Rafi's AI Assistant chat" aria-hidden="true">
+      <div class="chatbot__head">
+        <div class="chatbot__avatar" aria-hidden="true">🤖</div>
+        <div class="chatbot__head-info">
+          <b>Rafi's AI Assistant</b>
+          <small>Online · Replies instantly</small>
+        </div>
+        <button class="chatbot__close" id="chatClose" aria-label="Close chat">✕</button>
+      </div>
+      <div class="chatbot__msgs" id="chatMsgs" aria-live="polite"></div>
+      <div class="chatbot__quick" id="chatQuick"></div>
+      <form class="chatbot__input" id="chatForm">
+        <input type="text" id="chatInput" placeholder="Type your message..." autocomplete="off" aria-label="Message">
+        <button type="submit" aria-label="Send message">➤</button>
+      </form>
+      <div class="chatbot__foot">Powered by Rafi's AI · Ask anything about Abid Hasan Rafi</div>
+    </div>
+  </div>
+
   <script src="js/script.js" defer></script>
 </body>
 </html>
